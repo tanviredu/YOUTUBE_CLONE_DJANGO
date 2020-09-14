@@ -1,0 +1,41 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+{%block title_block %} Home {%endblock%}
+{% block css_block %}
+<style>
+    .col-sm-6 {
+        width: auto;
+        padding: 20px;
+    }
+</style>
+{% endblock %}
+{% block body_block %}
+    <div class="video-details">
+        <video src="/media/{{video.video_content}}" controls width="760px"></video>
+        <img src="/media/{{video.user.profile.profile_picture}}" alt="" width="23px" height="23px"
+        class="rounded-circle">{{video.user.username}} <br>
+    <small class="text-muted"><strong>Publish date: </strong>{{video.publish_date}}</small><br>
+    <small class="text-muted"><strong>Updated on: </strong>{{video.update_date}}</small>
+    </div>
+<hr>
+{{video.video_comment.count}} comments
+<div class="comments">
+    <div class="row">
+        <div class="col-sm-5 py-5">
+            <h4>Comments:</h4>
+            {% for comment in video.video_comment.all %}
+            <p><img src="/media/{{comment.user.profile.profile_picture}}" alt="" width="23px" height="23px"
+                class="rounded-circle"><strong>{{comment.user.username}}</strong> &nbsp; {{comment}}</p>
+            {% endfor %}
+        </div>
+        <div class="col-sm-7 py-5">
+            <form action="" method="POST">
+                {{form|crispy}}
+                {% csrf_token %}
+                <button type="submit" class="btn btn-primary btn-sm">Comment</button>
+            </form>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

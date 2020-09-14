@@ -1,0 +1,75 @@
+{% extends "base.html" %}
+{% load static %}
+{% load crispy_forms_tags %}
+{% block title_block %}profile @{{user}}{% endblock %}
+{% block css_block %}
+        <style>
+        .crop {
+            width: 300px;
+            height: 300px;
+            overflow: hidden;
+        }
+
+        .crop img {
+            border: 5px solid #ddd;
+            border-radius: 9px;
+            padding: 7px;
+            width: 300px;
+
+        div.polaroid {
+            width: 80%;
+            background-color: white;
+            box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+            margin-bottom: 25px;
+    }
+  }
+
+        </style>
+
+{% endblock %}
+{% block body_block %}
+        <div class="row" style="font-family: 'Pacifico', cursive;">
+            <div class="col-sm-4">
+            {% if user.profile.profile_picture %}
+                <img src="/media/{{user.profile.profile_picture}}" width="250px" height="250px" class="rounded-circle">
+            {% else %}
+                <img src="/media/default.png" width="250px" height="250px" class="rounded-circle">
+            {% endif %}
+            </div>
+        
+        </div>
+        <div class="col-sm-8 container">
+            <center>
+                <h1 style="font-family: 'Yanone Kaffeesatz', sans-serif;">{{user.profile}}</center><a href="{% url 'login_app:edit'%}" class="btn btn-outline-success btn-lg">Edit Profile</a></h1>
+            
+            <br> 
+            <br>
+            <h4 style="font-family: 'Pacifico', cursive;">Full name : {{user.profile.full_name}} </h4>
+            <br>
+            <p style="font-family: 'Pacifico', cursive;" > {{ user.profile.about }}</p>
+            <p style="font-family: 'Pacifico', cursive;" > Website :  {{ user.profile.website }}</p>
+            
+            <br>
+            
+        
+          </div>
+        </div>
+        <hr>
+
+        <div class="my-videos">
+            <div class="row p-5">
+                {% for video in user.post_user.all %}
+                <div class="col-sm-6">
+                    <a href="{% url 'stream_app:video_details' slug=video.slug %}"><img src="/media/{{video.thumbnail}}" alt="" width="100"></a><br>
+                    <Strong>{{video.video_title}}</Strong> <br>
+                    <small class="text-muted"><strong>Publish date: </strong>{{video.publish_date}}</small><br>
+                    <small class="text-muted"><strong>Updated on: </strong>{{video.update_date}}</small> <br>
+                    <b>{{video.video_comment.count}} Comments</b> &nbsp; 
+                    <a href="{% url 'stream_app:edit_video' slug=video.slug %}" class="btn btn-secondary btn-sm">Edit Video</a>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+
+
+{% endblock %}
