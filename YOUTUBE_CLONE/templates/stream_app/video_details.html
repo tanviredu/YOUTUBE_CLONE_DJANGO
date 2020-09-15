@@ -3,6 +3,7 @@
 {%block title_block %} Home {%endblock%}
 {% block css_block %}
 <style>
+    
     .col-sm-6 {
         width: auto;
         padding: 20px;
@@ -11,7 +12,33 @@
 {% endblock %}
 {% block body_block %}
     <div class="video-details">
-        <video src="/media/{{video.video_content}}" controls width="760px"></video>
+        
+        <video
+        id="my-player"
+        width="760px"
+        class="video-js"
+        controls
+        preload="auto"
+        poster="/media/{{video.user.profile.profile_picture}}"
+        data-setup='{}'>
+      <source src="/media/{{video.video_content}}" type="video/mp4"></source>
+      <source src="/media/{{video.video_content}}" type="video/webm"></source>
+      <source src="/media/{{video.video_content}}" type="video/ogg"></source>
+      <p class="vjs-no-js">
+        To view this video please enable JavaScript, and consider upgrading to a
+        web browser that
+        <a href="https://videojs.com/html5-video-support/" target="_blank">
+          supports HTML5 video
+        </a>
+      </p>
+    </video>
+
+
+            <!-- this is the default html player
+            use this if you dont need any advance option  -->
+         <!--video  controls width="760px"  src="/media/{{video.video_content}}" ></video--> 
+        
+        
         <img src="/media/{{video.user.profile.profile_picture}}" alt="" width="23px" height="23px"
         class="rounded-circle">{{video.user.username}} <br>
     <small class="text-muted"><strong>Publish date: </strong>{{video.publish_date}}</small><br>
